@@ -13,21 +13,22 @@ IMAGE_EXTENSIONS = {
 }
 
 TEXT_EXTENSIONS = {
-    ".html", ".htm", ".css", ".js", ".ts", ".jsx", ".tsx",
+    ".html", ".aspx", ".htm", ".css", ".js", ".ts", ".jsx", ".tsx",
     ".json", ".xml", ".yml", ".yaml", ".py", ".java", ".c",
     ".cpp", ".php", ".rb", ".go", ".rs", ".sh", ".bat", ".cmd",
     ".vbs", ".ini", ".md", ".txt", ".vue", ".env", ".java",
 
     ".unity", ".unitypackage", ".prefab", ".mat", ".meta", ".anim", ".controller", ".meta", ".sln", ".csproj", ".asset", ".cs",
 
-    ".csv", ".tsv", ".log", ".toml", ".cfg", ".env", ".spec", ".manifest", ".toc",
+    ".csv", ".tsv", ".log", ".toml", ".cfg", ".spec", ".manifest", ".toc",
 
     ".mcmeta",
 
     '.mtl',
+    '.gitignore',
 
     ### EXPERIMENTAL
-    ".obj", ".rdp", ".pem"
+    ".obj", ".rdp", ".pem", ".config", ".map", ".browser", ".info",
 }
 
 AUDIO_EXTENSIONS = {
@@ -78,6 +79,7 @@ MISC_SIGNATURES = {
     ".jar":[4,'PK\x03\x04'], 
     ".ttf": [5, '\x00\x01\x00\x00\x00'], ".otf": [4, 'OTTO'],
     ".ess":[4, 'TESV'], ".fos":[11, 'FO3SAVEGAME'], # skyrim save-files lol
+    ".resource": [4, 'FSB5'],
     
 }
 
@@ -90,8 +92,13 @@ RESET = "\033[0m"
 BOLD = "\033[1m"
 
 def get_base_filename(name):
+    # files with no name and just an 'extension' behave
+    # wierdly. fixing that here:
     if re.match(r"^_\d+\.env$", name):
-        return ".env" #.env files malfunction
+        return ".env"
+    elif re.match(r"^_\d+\.gitignore$", name):
+        return ".gitignore"
+    
     return re.sub(r"_\d+(?=\.[^\.]+$)", "", name)
 
 def is_image_valid(file_path):
@@ -207,7 +214,8 @@ def analyze_folder(folder_path):
                     image_deletions.append(file)
 
             # TEXT FILES (group and process later)
-            elif suffix in TEXT_EXTENSIONS or file.name.lower() in TEXT_EXTENSIONS: # .env files have no suffix
+            elif suffix in TEXT_EXTENSIONS or file.name.lower() in TEXT_EXTENSIONS: 
+                # .env // .gitignore files have no suffix
                 base_name = get_base_filename(file.name)
                 key = (file.parent, base_name)
                 text_file_groups.setdefault(key, []).append(file)
