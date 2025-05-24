@@ -56,7 +56,7 @@ MISC_SIGNATURES = {
 
     ".sqlite":[6,'SQLite'],
     ".zip":[4,'PK\x03\x04'],
-    ".rar":[7,'\x52\x61\x72\x21\x1A\x07\x00'],
+    ".rar":[8, ('Rar!\x1A\x07\x00', 'Rar!\x1A\x07\x01\x00')],
     ".swf": [4, ("CWS", "FWS")],
     ".pyz":[3,'PYZ'],
     ".exr":[4, '\x76\x2F\x31\x01'],
