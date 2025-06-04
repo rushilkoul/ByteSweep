@@ -13,7 +13,7 @@
   - this can be changed in the code with the flag `delete_appledouble`
   
 ### Use case:
-- The folder contains files with the same names but with prefixes, (_1, _2, etc.). **Only one file works**, and the others are corrupted.
+- The folder contains files with the same names but with suffixes, (_1, _2, etc.). **Only one file works**, and the others are corrupted.
 ![demo image showing 3 copies of corrupted files with only one having valid data](readme_assets/demo.png)
 - ByteSweep detects the **working file and deletes the others**, while also **renaming** (if needed) the file back to what it should have been named.
   - In this case, ByteSweep deleted the corrupted files and **automatically** renamed `PlayerController_1.cs` to `PlayerController.cs` so that all references to that file work within in Unity editor.
@@ -67,10 +67,9 @@ ByteSweep is modular and easily extensible.
 3. Add new formats, improve detection logic, or enhance CLI
 4. Open a Pull Request
 
-### Note
-- Not all files can be validated — formats without clear headers or decodable content may be skipped or misclassified.
-- You are responsible for reviewing deletion — the tool prints all operations
-- > **Pro Tip:** Comment out actual `.unlink()` or renaming lines during testing!
-
+> [!IMPORTANT]
+> - Not all files can be validated; formats without clear headers or decodable content may be skipped or misclassified.
+> - You are responsible for reviewing deletion. The tool prints all operations.
+> - During testing, comment out actual `.unlink()` statements or renaming logic.
 ### Special Thanks
 - https://en.wikipedia.org/wiki/List_of_file_signatures was an extremely useful resource during the development of this project.
